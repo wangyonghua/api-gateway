@@ -48,7 +48,26 @@ public class UtilJson {
         return null;
     }
 
-    public static Object mapToBean(Map<String, Object> map, Class<?> clazz) throws Exception {
+    public static Object mapToBean(Map<String, Object> map, Class<?> beanClass) throws Exception {
+        if (map == null)
+            return null;
+
+        Object obj = beanClass.newInstance();
+
+        org.apache.commons.beanutils.BeanUtils.populate(obj, map);
+
+        return obj;
+    }
+
+    public static Map<?, ?> objectToMap(Object obj) {
+        if (obj == null)
+            return null;
+
+        return new org.apache.commons.beanutils.BeanMap(obj);
+    }
+
+
+    public static Object mapToBean1(Map<String, Object> map, Class<?> clazz) throws Exception {
         Object obj = clazz.newInstance();
         if (map != null && map.size() > 0) {
             for (Map.Entry<String, Object> entry : map.entrySet()) {
